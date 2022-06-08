@@ -20,13 +20,17 @@ public class ClienteService {
 	@Autowired
 	private PessoaRepository pessoaRepository;
 	
-
+	//Método de busca por ID.
 	public Cliente findById(Integer id) {
 		Optional<Cliente> obj = repository.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não foi encontrado: " + id));
 	}
 	
+	//Método de busca por todos os clientes.
 	public List<Cliente> findAllClientes() {
 		return repository.findAll();
 	}
+
+	
+	
 }
