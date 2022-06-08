@@ -23,7 +23,7 @@ public class TecnicoService {
 	@Autowired //Vinculo com repositório de pessoa.
 	private PessoaRepository pessoaRepository;
 
-	//Métoido de busca por um ID no banco.
+	//Método de busca por um ID no banco.
 	public Tecnico findById(Integer id) {
 		Optional<Tecnico> obj = repository.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não foi encontrado: " + id));
