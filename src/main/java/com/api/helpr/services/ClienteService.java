@@ -56,5 +56,26 @@ public class ClienteService {
 		}
 	}
 	
+	//Método que modifica dados clientes existentes
+	public Cliente update(Integer id, ClienteDTO objDto) {
+		objDto.setId(id);
+		Cliente oldObj = findById(id);
+		validaCpfEEmail(objDto);
+		oldObj = new Cliente(objDto);
+		return repository.save(oldObj);
+	}
+	
 	
 }
+
+
+
+
+
+
+
+
+
+
+
+
