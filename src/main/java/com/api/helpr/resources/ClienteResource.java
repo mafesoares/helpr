@@ -26,7 +26,7 @@ import com.api.helpr.services.ClienteService;
 @RequestMapping(value = "/service/clientes")
 public class ClienteResource {
 	
-	@Autowired
+	@Autowired//injeção de serviço
 	private ClienteService service;
 	
 	
