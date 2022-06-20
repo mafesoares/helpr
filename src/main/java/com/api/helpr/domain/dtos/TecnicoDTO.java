@@ -42,7 +42,7 @@ public class TecnicoDTO extends Pessoa {
 		this.cpf = obj.getCpf();
 		this.email = obj.getEmail();
 		this.senha = obj.getSenha();
-		this.perfils = obj.getPerfils().stream().map(x -> x.getCodigo()).collect(Collectors.toSet());
+		this.perfils = obj.getPerfils().stream().map(x -> x.getCodigo()).collect(Collectors.toSet());//mapeia e pra cada perfil x dá um get código e pegamos o código
 		this.dataCriacao = obj.getDataCriacao();
 		addPerfil(Perfil.CLIENTE);
 	}
@@ -88,7 +88,7 @@ public class TecnicoDTO extends Pessoa {
 	}
 
 	public Set<Perfil> getPerfils() {
-		return perfils.stream().map(x -> Perfil.toEnum(x)).collect(Collectors.toSet());
+		return perfils.stream().map(x -> Perfil.toEnum(x)).collect(Collectors.toSet());//p cada perfil retorne a descrição do enum (e não o número)
 	}
 
 	public void addPerfil(Perfil perfil) {

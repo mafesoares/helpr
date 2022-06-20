@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.api.helpr.domain.Pessoa;
@@ -22,11 +23,14 @@ public class TecnicoService {
 
 	@Autowired //Vinculo com repositório de pessoa.
 	private PessoaRepository pessoaRepository;
+	
+	@Autowired
+	private BCryptPasswordEncoder encoder;
 
-	//Método de busca por um ID no banco.
+	//Métoido de busca por um ID no banco.
 	public Tecnico findById(Integer id) {
 		Optional<Tecnico> obj = repository.findById(id);
-		return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não foi encontrado: " + id));
+		return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não foi encontrado: " + id));//se ele não encontrar o obj retorna a msg de exceção
 	}
 
 	//Método de busca para todos os registros de técnicos
@@ -37,6 +41,7 @@ public class TecnicoService {
 	//Método que fará a criação de novo técnico.
 	public Tecnico create(TecnicoDTO objDto) {
 		objDto.setId(null);
+		objDto.setSenha(encoder.encode(objDto.getSenha()));
 		validaCpfEEmail(objDto);
 		Tecnico newObj = new Tecnico(objDto);
 		return repository.save(newObj);
@@ -44,7 +49,7 @@ public class TecnicoService {
 
 	//Método para modificar técnicos existentes.
 	public Tecnico update(Integer id, TecnicoDTO objDto) {
-		objDto.setId(id);
+		objDto.setId(id);//seto passando o mesmo id
 		Tecnico oldObj = findById(id);
 		validaCpfEEmail(objDto);
 		oldObj = new Tecnico(objDto);

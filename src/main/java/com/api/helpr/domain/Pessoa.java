@@ -20,13 +20,13 @@ import org.hibernate.validator.constraints.br.CPF;
 import com.api.helpr.domain.enums.Perfil;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-@Entity
+@Entity//informando p o jpa que Pessoa é uma entidade e aí o cria-se uma tabela no banco
 public abstract class Pessoa implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id//chave primária
+	@GeneratedValue(strategy = GenerationType.IDENTITY)//a geração da chave primária id é obrigação do banco
 	protected Integer id;
 	protected String nome;
 	
@@ -38,9 +38,9 @@ public abstract class Pessoa implements Serializable{
 	protected String email;
 	protected String senha;
 	
-	@ElementCollection(fetch = FetchType.EAGER)
-	@CollectionTable(name = "PERFIS")
-	protected Set<Integer> perfils = new HashSet<>();
+	@ElementCollection(fetch = FetchType.EAGER)//coleção de elemento do tipo integer e quando eu chamar o usuário no banco, a lista bem junto
+	@CollectionTable(name = "PERFIS")//uma tabela no banco apenas com perfis
+	protected Set<Integer> perfils = new HashSet<>();//permite um único valor de cliente
 	
 	@JsonFormat(pattern = "dd/MM/yyyy")
 	protected LocalDate dataCriacao = LocalDate.now();

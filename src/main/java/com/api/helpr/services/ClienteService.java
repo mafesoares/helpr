@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.api.helpr.domain.Cliente;
@@ -16,33 +17,33 @@ import com.api.helpr.services.exceptions.ObjectNotFoundException;
 
 @Service
 public class ClienteService {
-	
+
 	@Autowired
 	private ClienteRepository repository;
-	
+
 	@Autowired
 	private PessoaRepository pessoaRepository;
+
+	@Autowired
+	private BCryptPasswordEncoder encoder;
 	
-	//Método de busca por ID.
 	public Cliente findById(Integer id) {
 		Optional<Cliente> obj = repository.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não foi encontrado: " + id));
 	}
-	
-	//Método de busca por todos os clientes.
+
 	public List<Cliente> findAllClientes() {
 		return repository.findAll();
 	}
 
-	//Método que adiciona um novo cliente
 	public Cliente create(ClienteDTO objDto) {
 		objDto.setId(null);
+		objDto.setSenha(encoder.encode(objDto.getSenha()));
 		validaCpfEEmail(objDto);
 		Cliente newObj = new Cliente(objDto);
 		return repository.save(newObj);
 	}
-	
-	//Método que modifica dados clientes existentes
+
 	public Cliente update(Integer id, ClienteDTO objDto) {
 		objDto.setId(id);
 		Cliente oldObj = findById(id);
@@ -50,19 +51,17 @@ public class ClienteService {
 		oldObj = new Cliente(objDto);
 		return repository.save(oldObj);
 	}
-	
-	//Método para exclusão de um cliente por id
+
 	public void delete(Integer id) {
 		Cliente obj = findById(id);
 		if(obj.getChamados().size() > 0) {
-			throw new DataIntegrityViolationException
-			("O cliente: "+id+" tem chamados no sistema: "+
+			throw new DataIntegrityViolationException("O Cliente: " + 
+			id + " tem chamados no sistema: " +
 			obj.getChamados().size());
 		}
 		repository.deleteById(id);
 	}
-
-	// Método que valida os CPFs e emails para update e create
+	
 	private void validaCpfEEmail(ClienteDTO objDto) {
 
 		Optional<Pessoa> obj = pessoaRepository.findByCpf(objDto.getCpf());
@@ -72,10 +71,10 @@ public class ClienteService {
 
 		obj = pessoaRepository.findByEmail(objDto.getEmail());
 		if (obj.isPresent() && obj.get().getId() != objDto.getId()) {
-			throw new DataIntegrityViolationException("Email já cadastrado no sistema!");
+			throw new DataIntegrityViolationException("E-mail já cadastrado no sistema!");
 		}
+
 	}
-	
 }
 
 
