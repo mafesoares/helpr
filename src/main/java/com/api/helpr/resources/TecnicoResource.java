@@ -31,7 +31,7 @@ public class TecnicoResource {
 	
 	//Resposta Tecnico por Técnico
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<TecnicoDTO> findById(@PathVariable Integer id){
+	public ResponseEntity<TecnicoDTO> findById(@PathVariable Integer id){ //ResponseEntity=todas as respostas da req;
 		Tecnico obj = service.findById(id);
 		return ResponseEntity.ok().body(new TecnicoDTO(obj));
 	}
@@ -49,7 +49,7 @@ public class TecnicoResource {
 	@PostMapping
 	public ResponseEntity<TecnicoDTO> createTecnico(@Valid @RequestBody TecnicoDTO objDto){
 		Tecnico newObj = service.create(objDto);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest()//endereço de acesso ao id
 				.path("/{id}").buildAndExpand(newObj.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}

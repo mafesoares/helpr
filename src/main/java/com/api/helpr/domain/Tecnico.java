@@ -16,13 +16,13 @@ public class Tecnico extends Pessoa {
 
 	private static final long serialVersionUID = 1L;
 
-	@JsonIgnore
+	@JsonIgnore//ignora as demais infos do json, mostra apenas o que eu tô pedindo que nesse caso é o técnico (sem isso, ele traria técnico + chamado + cliente (pq todo tec tem chamado e todo chamado tem cli)
 	@OneToMany(mappedBy = "tecnico")
 	private List<Chamado> chamados = new ArrayList<>();
 
 	public Tecnico() {
 		super();
-		addPerfils(Perfil.CLIENTE);
+		addPerfils(Perfil.CLIENTE);//sermpre que um tec for adicionado ele já vai ter um perfil de cliente
 	}
 
 	public Tecnico(Integer id, String nome, String cpf, String email, String senha) {
@@ -30,6 +30,7 @@ public class Tecnico extends Pessoa {
 		addPerfils(Perfil.CLIENTE);
 	}
 
+	//inserido quando criamos o create
 	public Tecnico(TecnicoDTO obj) {
 		super();
 		this.id = obj.getId();

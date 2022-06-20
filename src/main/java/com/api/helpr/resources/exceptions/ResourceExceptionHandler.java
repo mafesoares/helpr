@@ -15,7 +15,7 @@ import com.api.helpr.services.exceptions.ObjectNotFoundException;
 @ControllerAdvice
 public class ResourceExceptionHandler {
 	
-	@ExceptionHandler(ObjectNotFoundException.class)
+	@ExceptionHandler(ObjectNotFoundException.class)//manipulador de exceção da classe ObjectNot...
 	public ResponseEntity<StandardError> objectNotFoundException(ObjectNotFoundException ex,
 			HttpServletRequest request){
 		StandardError error = new StandardError(
