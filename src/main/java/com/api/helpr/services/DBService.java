@@ -38,7 +38,7 @@ public class DBService {
 		Tecnico t4 = new Tecnico(null, "Taisa Ferreira", "612.261.820-97","tataferreira@gmail.com", encoder.encode("123456"));
 		t4.addPerfils(Perfil.TECNICO);
 		Tecnico t5 = new Tecnico(null, "Danrley Souza", "936.848.410-48","dandansouza@gmail.com", encoder.encode("123456"));
-		t5.addPerfils(Perfil.TECNICO);
+		t5.addPerfils(Perfil.ADMIN);
 		Tecnico t6 = new Tecnico(null, "Bruna Souza", "820.420.380-24","souzabrubs@gmail.com", encoder.encode("123456"));
 		t6.addPerfils(Perfil.TECNICO);
 		

@@ -17,16 +17,18 @@ public class UserDetailsServiceImpl implements UserDetailsService{
 	
 	@Autowired
 	private PessoaRepository repository;
-	
+
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 		Optional<Pessoa> user = repository.findByEmail(email);
 		if(user.isPresent()) {
-			return new UserSS(user.get().getId(), user.get().getEmail(), user.get().getSenha(), user.get().getPerfils());
+			return new UserSS(
+					user.get().getId(), 
+					user.get().getEmail(), 
+					user.get().getSenha(), 
+					user.get().getPerfils());
 		}
 		throw new UsernameNotFoundException(email);
 	}
-	
-
 }
 //procura a partir do email e traz as infos de pessoa a partir disso. Se conseguir, vai no UserSS. Coloca cada um dentro de cada um. Depois vai para o JWTUtil.
