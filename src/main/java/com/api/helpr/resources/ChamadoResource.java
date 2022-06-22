@@ -49,6 +49,13 @@ public class ChamadoResource {
 		return ResponseEntity.ok().body(listDto);
 	}
 	
+	@GetMapping(value="/relatorios/clientes/{cliente}")
+	public ResponseEntity<List<ChamadoDTO>> findReportChamadoCliente(@PathVariable Integer cliente) {//recebo o id, entrego a lista
+		List<Chamado> reportList = service.reportChamadoCliente(cliente);
+		List<ChamadoDTO> listDto = reportList.stream().map(rel -> new ChamadoDTO(rel)).collect(Collectors.toList());
+		return ResponseEntity.ok().body(listDto);
+	}
+	
 	@PreAuthorize("hasAnyRole('ROLE_TECNICO')")
 	@PostMapping
 	public ResponseEntity<ChamadoDTO> create(@Valid @RequestBody ChamadoDTO objDto){
